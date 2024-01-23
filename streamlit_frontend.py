@@ -181,7 +181,6 @@ def main():
                 cv2.imwrite(f"{temp_folder_path}/cutout_{i}.jpg", _cutout)
             
             zip_path = create_zip_archive(temp_folder_path)
-            st.markdown(f"### [Download Images]({zip_path})")
             
             # Delete the temporary folder when done
             temp_folder.cleanup()
