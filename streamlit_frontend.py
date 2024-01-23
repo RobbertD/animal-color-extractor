@@ -108,7 +108,7 @@ def create_zip_archive(images_folder):
     return zip_filename_path
 
 def main():
-    st.title("Blob Detector App")
+    st.title("Animal color extractor App")
     
     uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
     
