@@ -148,7 +148,7 @@ def main():
                     fill_hole_input = st.checkbox("Fill holes", value=True, key=f"fill_hole_input_{i}")
                     erode_input = st.checkbox("Erode", value=True, key=f"erode_input_{i}")
                 
-                ths, obj_data, masks = detect_objects_threshold(_cutout, cutout_threshold, min_area, max_num_objects=1, thresholding_func=cv2.THRESH_BINARY_INV)
+                _, obj_data, masks = detect_objects_threshold(_cutout, cutout_threshold, min_area, max_num_objects=1, thresholding_func=cv2.THRESH_BINARY_INV)
                 mask = masks[0].astype(np.uint8)*255
                 
                 if fill_hole_input:
@@ -163,7 +163,7 @@ def main():
                 with cols[0]:
                     st.image(_cutout, caption=f"Cutout", use_column_width=False)
                 with cols[1]:
-                    st.image(ths, caption=f"Cutout mask", use_column_width=False)
+                    st.image(mask, caption=f"Cutout mask", use_column_width=False)
                 # apply mask
                 with cols[2]:
                     st.image(masked_cutout, caption=f"Masked Cutout", use_column_width=False)
