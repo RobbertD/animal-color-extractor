@@ -147,7 +147,7 @@ def main():
                     cutout_threshold = st.slider("Min Threshold", 0, 255, 230, key=f"min_threshold_{i}")
                     fill_hole_input = st.checkbox("Fill holes", value=True, key=f"fill_hole_input_{i}")
                     erode_input = st.checkbox("Erode", value=True, key=f"erode_input_{i}")
-                    erode_level = st.slider("Erode Level", 1, 10, 1, key=f"erode_level_{i}")
+                    erode_level = st.slider("Erode Level", 1, 10, 5, key=f"erode_level_{i}")
 
                 _, obj_data, masks = detect_objects_threshold(_cutout, cutout_threshold, min_area, max_num_objects=1, thresholding_func=cv2.THRESH_BINARY_INV)
                 mask = masks[0].astype(np.uint8)*255
@@ -159,7 +159,9 @@ def main():
                     ele = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (erode_level, erode_level))
                     mask = cv2.erode(mask, ele)
 
+                # masked cutout on green basckground
                 masked_cutout = cv2.bitwise_and(_cutout, _cutout, mask=mask)
+                masked_cutout[mask == 0] = (0, 255, 0)
 
                 
                 with cols[0]:
