@@ -118,7 +118,7 @@ def main():
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
         # put both images side by side
-        min_area = st.slider("Min Area", 0, 10000, 5000)
+        min_area = st.slider("Min Area", 100, 10000, 5000)
         # cols = st.columns(2)
         # with cols[0]:
         #     st.image(image, caption="Uploaded Image", use_column_width=False)
