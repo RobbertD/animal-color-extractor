@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 opencv-python = "^4.9.0.80"
 streamlit = "^1.30.0"
 numpy = "^1.26.3"
