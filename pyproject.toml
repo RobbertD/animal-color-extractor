@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "animal-color-extractor"
+version = "0.1.0"
+description = "Automate the color extraction of a scan/pic of hand drawn animals in biology books"
+authors = ["Robbert DeHaven"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+opencv-python = "^4.9.0.80"
+streamlit = "^1.30.0"
+numpy = "^1.26.3"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.14"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
