@@ -115,6 +115,7 @@ def main():
     if uploaded_file is not None:
         # Read the image
         image = cv2.imdecode(np.fromstring(uploaded_file.read(), np.uint8), cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
         # put both images side by side
         min_area = st.slider("Min Area", 0, 10000, 5000)
