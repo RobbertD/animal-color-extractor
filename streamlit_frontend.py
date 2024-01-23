@@ -178,6 +178,7 @@ def main():
             temp_folder_path = Path(temp_folder.name)
 
             for i, _cutout in enumerate(masked_cutouts):
+                _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
                 cv2.imwrite(f"{temp_folder_path}/cutout_{i}.jpg", _cutout)
             
             zip_path = create_zip_archive(temp_folder_path)
@@ -190,7 +191,7 @@ def main():
                 btn = st.download_button(
                     label="Download ZIP",
                     data=fp,
-                    file_name="myfile.zip",
+                    file_name=zip_path.name,
                     mime="application/zip"
                 )
             #remove zip 
