@@ -141,6 +141,7 @@ def main():
         for i, _cutout in enumerate(cutouts):
             with st.container(border=True):
                 st.subheader(f"Cutout {i+1}")
+                name = st.text_input("Name", value=f"cutout_{i+1}", key=f"cutout_name_{i+1}")
                 cols = st.columns(4)
                 
                 with cols[3]:
@@ -172,7 +173,7 @@ def main():
                 with cols[2]:
                     st.image(masked_cutout, caption=f"Masked Cutout", use_column_width=False)
 
-                masked_cutouts.append(masked_cutout)
+                masked_cutouts.append((name,masked_cutout))
         
         st.subheader("Download Results:")
         zip_path = None
@@ -181,9 +182,9 @@ def main():
             temp_folder = tempfile.TemporaryDirectory()
             temp_folder_path = Path(temp_folder.name)
 
-            for i, _cutout in enumerate(masked_cutouts):
+            for i, (name, _cutout) in enumerate(masked_cutouts):
                 _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
-                cv2.imwrite(f"{temp_folder_path}/cutout_{i}.jpg", _cutout)
+                cv2.imwrite(f"{temp_folder_path}/{name}.jpg", _cutout)
             
             zip_path = create_zip_archive(temp_folder_path)
             
