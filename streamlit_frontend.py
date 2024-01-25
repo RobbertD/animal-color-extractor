@@ -184,7 +184,7 @@ def main():
 
             for i, (name, _cutout) in enumerate(masked_cutouts):
                 _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
-                cv2.imwrite(f"{temp_folder_path}/{name}.jpg", _cutout)
+                cv2.imwrite(f"{temp_folder_path}/{name}.png", _cutout)
             
             zip_path = create_zip_archive(temp_folder_path)
             
