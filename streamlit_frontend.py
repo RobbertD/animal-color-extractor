@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import pandas as pd
 from tempfile import NamedTemporaryFile
+import utils
 
 import cv2
 import numpy as np
@@ -103,6 +104,7 @@ def create_zip_archive(images_folder):
 
     with ZipFile(zip_filename_path, 'w') as zipf:
         for file_path in images_folder_path.iterdir():
+            print(file_path)
             zipf.write(file_path, arcname=file_path.name)
     
     return zip_filename_path
@@ -176,22 +178,44 @@ def main():
                 
                 if include:
                     masked_cutouts.append((name,masked_cutout))
+
         
-        st.subheader("Download Results:")
         zip_path = None
-        if st.button("Zip images"):
-            # Create a temporary folder
-            temp_folder = tempfile.TemporaryDirectory()
-            temp_folder_path = Path(temp_folder.name)
+        # Create a temporary folder
+        temp_folder_path = Path("temp_folder")
+        temp_folder_path.mkdir(exist_ok=True)
+        
+        st.subheader("Calculate Kmeans")
+        if 'kmeans' not in st.session_state:
+            st.session_state.kmeans = []
+        n_clusters = st.slider("Number of clusters", 1, 256, 256)
+        
+        if st.button("Calculate Kmeans"):
+            st.session_state.kmeans = []
+            for name, _cutout in masked_cutouts:
+                _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
+                cluster_centers_with_pixels = utils.kmeans(_cutout, n_clusters)
+                st.session_state.kmeans.append(cluster_centers_with_pixels)
+            st.success("Done!")
+
+        st.subheader("Download Results:")
+        if st.button("Zip images and Kmeans csv"):
 
             for i, (name, _cutout) in enumerate(masked_cutouts):
                 _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
-                cv2.imwrite(f"{temp_folder_path}/{name}.png", _cutout)
+                cv2.imwrite(str(temp_folder_path / f"{name}.png"), _cutout)
+
+                if len(st.session_state.kmeans)>0:
+                    csv_file = temp_folder_path / f"{name}.csv"
+                    with csv_file.open("w") as f:
+                        # np array to csv
+                        header = "Red, Green, Blue, Percentage\n"
+                        np.savetxt(f, st.session_state.kmeans[i], delimiter=",", header=header)
             
             zip_path = create_zip_archive(temp_folder_path)
             
             # Delete the temporary folder when done
-            temp_folder.cleanup()
+            for a in temp_folder_path.iterdir(): a.unlink() 
 
         if zip_path:
             with open(zip_path, "rb") as fp:
