@@ -145,6 +145,7 @@ def main():
                 cols = st.columns(4)
                 
                 with cols[3]:
+                    include = st.checkbox("Include", value=True, key=f"include_{i}")
                     cutout_threshold = st.slider("Min Threshold", 0, 255, 230, key=f"min_threshold_{i}")
                     fill_hole_input = st.checkbox("Fill holes", value=True, key=f"fill_hole_input_{i}")
                     erode_input = st.checkbox("Erode", value=True, key=f"erode_input_{i}")
@@ -172,8 +173,9 @@ def main():
                 # apply mask
                 with cols[2]:
                     st.image(masked_cutout, caption=f"Masked Cutout", use_column_width=False)
-
-                masked_cutouts.append((name,masked_cutout))
+                
+                if include:
+                    masked_cutouts.append((name,masked_cutout))
         
         st.subheader("Download Results:")
         zip_path = None
