@@ -97,7 +97,7 @@ def main():
             for name, _cutout in masked_cutouts:
                 cluster_centers_with_pixels = utils.kmeans(_cutout, n_clusters, eps, max_iter=max_iter, attempts=attempts)
                 st.session_state.kmeans.append(cluster_centers_with_pixels)
-                prog_bar.progress(100 * (len(st.session_state.kmeans) / len(masked_cutouts)), text="Calculating Kmeans...")
+                prog_bar.progress((len(st.session_state.kmeans) / len(masked_cutouts)), text="Calculating Kmeans...")
             prog_bar.empty()
             st.success("Done!")
 
