@@ -169,12 +169,12 @@ def main():
 
                 
                 with cols[0]:
-                    st.image(_cutout, caption=f"Cutout", use_column_width=False)
+                    st.image(_cutout, caption=f"Cutout", use_column_width=True)
                 with cols[1]:
-                    st.image(mask, caption=f"Cutout mask", use_column_width=False)
+                    st.image(mask, caption=f"Cutout mask", use_column_width=True)
                 # apply mask
                 with cols[2]:
-                    st.image(masked_cutout, caption=f"Masked Cutout", use_column_width=False)
+                    st.image(masked_cutout, caption=f"Masked Cutout", use_column_width=True)
                 
                 if include:
                     masked_cutouts.append((name,masked_cutout))
