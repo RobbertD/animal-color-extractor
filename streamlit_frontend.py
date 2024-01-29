@@ -198,7 +198,6 @@ def main():
             st.session_state.kmeans = []
             with st.spinner("Calculating Kmeans..."):
                 for name, _cutout in masked_cutouts:
-                    _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
                     cluster_centers_with_pixels = utils.kmeans(_cutout, n_clusters, eps, max_iter=max_iter, attempts=attempts)
                     st.session_state.kmeans.append(cluster_centers_with_pixels)
             st.success("Done!")
