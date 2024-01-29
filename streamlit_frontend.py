@@ -186,16 +186,21 @@ def main():
         temp_folder_path.mkdir(exist_ok=True)
         
         st.subheader("Calculate Kmeans")
+        st.info("Note: This process can take a while. Please be patient. Parameters: https://docs.opencv.org/3.4/d1/d5c/tutorial_py_kmeans_opencv.html")
         if 'kmeans' not in st.session_state:
             st.session_state.kmeans = []
-        n_clusters = st.slider("Number of clusters", 1, 256, 256)
+        n_clusters = st.number_input("Number of clusters", 1, 256, 256)
+        eps = st.number_input("Epsilon", 0.0, 10.0, 1.0)
+        max_iter = st.number_input("Max Iterations", 1, 100, 10)
+        attempts = st.number_input("Attempts", 1, 100, 5)
         
         if st.button("Calculate Kmeans"):
             st.session_state.kmeans = []
-            for name, _cutout in masked_cutouts:
-                _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
-                cluster_centers_with_pixels = utils.kmeans(_cutout, n_clusters)
-                st.session_state.kmeans.append(cluster_centers_with_pixels)
+            with st.spinner("Calculating Kmeans..."):
+                for name, _cutout in masked_cutouts:
+                    _cutout = cv2.cvtColor(_cutout, cv2.COLOR_BGR2RGB)
+                    cluster_centers_with_pixels = utils.kmeans(_cutout, n_clusters, eps, max_iter=max_iter, attempts=attempts)
+                    st.session_state.kmeans.append(cluster_centers_with_pixels)
             st.success("Done!")
 
         st.subheader("Download Results:")

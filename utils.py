@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def kmeans(image, clusters):
+def kmeans(image, clusters, eps, max_iter, attempts):
     Z = image.reshape((-1,3))
 
     #  filter out the green pixels
@@ -12,12 +12,11 @@ def kmeans(image, clusters):
     Z = np.float32(Z)
 
     # Apply k-means clustering
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1)
-    attemps = 1
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, max_iter, eps)
     flags = cv2.KMEANS_RANDOM_CENTERS
 
     compactness, labels, centers = cv2.kmeans(
-        Z, K=clusters, bestLabels=None, criteria=criteria, attempts=attemps, flags=flags
+        Z, K=clusters, bestLabels=None, criteria=criteria, attempts=attempts, flags=flags
     )
 
     # Count the number of pixels in each cluster
