@@ -101,6 +101,7 @@ def main():
             prog_bar.empty()
             st.success("Done!")
 
+        # Download the results
         st.subheader("Download Results:")
         if st.button("Zip images and Kmeans csv"):
 
